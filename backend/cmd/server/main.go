@@ -43,9 +43,12 @@ func main() {
 		log.Printf("warning: could not create indexes: %v", err)
 	}
 
-	rdb := redis.NewClient(&redis.Options{
-		Addr: cfg.RedisURL,
-	})
+	redisOptions, err := redis.ParseURL(cfg.RedisURL)
+		if err != nil {
+   			 log.Fatal(err)
+	}
+
+	rdb := redis.NewClient(redisOptions)
 
 	if err = rdb.Ping(context.Background()).Err(); err != nil {
 		log.Fatal(err)
