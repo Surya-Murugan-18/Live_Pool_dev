@@ -1,38 +1,38 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AlertCircleIcon } from 'lucide-react';
-import { AuthLayout } from '../components/layout/AuthLayout';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { PasswordInput } from '../components/ui/PasswordInput';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AlertCircleIcon } from "lucide-react";
+import { AuthLayout } from "../components/layout/AuthLayout";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { PasswordInput } from "../components/ui/PasswordInput";
+import { useAuth } from "../contexts/AuthContext";
 
 export function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [errors, setErrors] = useState({});
-  const [authError, setAuthError] = useState('');
+  const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Redirect back to the page the user was trying to reach, or dashboard
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const submit = async (event) => {
     event.preventDefault();
 
     const nextErrors = {};
-    if (!email.trim()) nextErrors.email = 'Email is required.';
+    if (!email.trim()) nextErrors.email = "Email is required.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      nextErrors.email = 'Enter a valid email address.';
-    if (!password) nextErrors.password = 'Password is required.';
+      nextErrors.email = "Enter a valid email address.";
+    if (!password) nextErrors.password = "Password is required.";
 
     setErrors(nextErrors);
-    setAuthError('');
+    setAuthError("");
 
     if (Object.keys(nextErrors).length > 0) return;
 
@@ -41,7 +41,7 @@ export function Login() {
       await login({ email, password, remember });
       navigate(from, { replace: true });
     } catch {
-      setAuthError('Invalid email or password.');
+      setAuthError("Invalid email or password.");
     } finally {
       setLoading(false);
     }
@@ -53,8 +53,12 @@ export function Login() {
       panelText="Sign in to manage your polls, share links with your audience, and watch results arrive live."
     >
       <div className="rounded-xl border border-line bg-white p-6 shadow-card sm:p-8">
-        <h1 className="text-2xl font-extrabold tracking-tight text-ink">Welcome Back</h1>
-        <p className="mt-2 text-sm text-ink-muted">Sign in to manage your polls.</p>
+        <h1 className="text-2xl font-extrabold tracking-tight text-ink">
+          Welcome Back
+        </h1>
+        <p className="mt-2 text-sm text-ink-muted">
+          Sign in to manage your polls.
+        </p>
 
         {authError ? (
           <div
@@ -74,7 +78,7 @@ export function Login() {
             label="Email"
             type="email"
             autoComplete="email"
-            placeholder="you@company.com"
+            placeholder="sai27@gmail.com"
             value={email}
             error={errors.email}
             onChange={(e) => setEmail(e.target.value)}
@@ -99,14 +103,23 @@ export function Login() {
             Remember me
           </label>
 
-          <Button type="submit" size="lg" fullWidth loading={loading} loadingLabel="Signing in…">
+          <Button
+            type="submit"
+            size="lg"
+            fullWidth
+            loading={loading}
+            loadingLabel="Signing in…"
+          >
             Login
           </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-ink-muted">
-          Don&apos;t have an account?{' '}
-          <Link to="/signup" className="font-semibold text-brand-600 hover:text-brand-700">
+          Don&apos;t have an account?{" "}
+          <Link
+            to="/signup"
+            className="font-semibold text-brand-600 hover:text-brand-700"
+          >
             Create an account
           </Link>
         </p>
